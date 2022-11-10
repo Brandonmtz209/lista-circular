@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="producto.js"></script>
+    <script src="inventario.js"></script>
+    <link rel="stylesheet" href="estilo.css">
+    <title></title>
+</head>
+<body>
+    <h1>agregar base</h1>
+    <input type="text" name="nombre" id="inputNombre" placeholder="nombre">
+    <input type="text" name="minutos" id="inputMinutos" placeholder="minutos">
+    <div>
+        <button class="botones" type="button" id="buttonAgregar">agregar</button>
+    </div>
+    <div>
+        <button class="botones" type="button" id="buttonEliminar">eliminar</button>
+    </div>
+    <div>
+        <button class="botones" type="button" id="buttonImprimir">listado</button>
+    </div>
+    <div>
+        <button class="botones" type="button" id="buttonBuscar">buscar</button>
+    </div>
+    <div>
+        <button class="botones" type="button" id="buttonCancelar">cancelar</button>
+    </div>
+    <div id="mostrar1">   
+    </div>
+    <h1>recorrido</h1>
+    <input type="text" name="baseInicio" id="inputbaseInicio" placeholder="baseInicio">
+    <input type="text" name="horaInicio" id="inputhoraInicio" placeholder="horaInicio">
+    <input type="text" name="minutoInicio" id="inputminutoInicio" placeholder="minutoInicio">
+    <input type="text" name="horaFin" id="inputhoraFin" placeholder="horaFin">
+    <input type="text" name="minutoFin" id="inputminutoFin" placeholder="minutoFin">
+    <div>
+        <button class="botones" type="button" id="buttonrecorrido">recorrido</button>
+    </div>
+    <div id="mostrar2">
+    </div>
+    <script>
+        let inventario = new Inventario();
+        let buttonAgregar = document.getElementById('buttonAgregar');
+        let buttonEliminar = document.getElementById('buttonEliminar');
+        let buttonImprimir = document.getElementById('buttonImprimir');
+        let buttonBuscar = document.getElementById('buttonBuscar');
+        let divmostrar1 = document.getElementById('mostrar1');
+        buttonAgregar.addEventListener('click', () => {
+            let inputNombre = document.getElementById('inputNombre').value;
+            let inputMinutos = document.getElementById('inputMinutos').value;
+            let base = new Base(inputNombre,inputMinutos);
+            inventario.agregar(base);
+            //necesita que se borra el base agregado anterior porque se sigue imprimiendo en cadena
+            divmostrar1.innerHTML = inventario.listar() + ' se agrego';
+        });
+        buttonEliminar.addEventListener('click', () => {
+            let inputNombre = document.getElementById('inputNombre').value;
+            let valorCodigo1 = inventario.eliminar(inputNombre);
+            let valorCodigo2 = inventario.eliminar(inputNombre);
+            if (valorCodigo1 == null) {
+                divmostrar1.innerHTML ='<br>No existe el nodo';
+            } else {
+                divmostrar1.innerHTML = "El nodo: " + inputNombre + ' se elimino';
+            }
+        });
+        buttonImprimir.addEventListener('click', () => {
+            divmostrar1.innerHTML = inventario.listar()
+        });
+        buttonBuscar.addEventListener('click', () => {
+            let inputNombre = document.getElementById('inputNombre').value;
+            let valorCodigo = inventario.buscar(inputNombre);
+            if (valorCodigo == null) {
+                divmostrar1.innerHTML ='<br>no existe el nodo';
+            } else {
+                divmostrar1.innerHTML = inventario.buscar(inputNombre).nombre + ' es el nodo encontrado';
+            }
+        });
+        buttonCancelar.addEventListener('click', () => {
+            document.getElementById('inputNombre').value = '';
+            document.getElementById('inputMinutos').value = '';
+        });
+        let buttonrecorrido = document.getElementById('buttonrecorrido');
+        let divmostrar2 = document.getElementById('mostrar2');
+        buttonrecorrido.addEventListener('click', () => {
+            let inputbaseInicio = document.getElementById('inputbaseInicio').value;
+            let inputhoraInicio = document.getElementById('inputhoraInicio').value;
+            let inputminutoInicio = document.getElementById('inputminutoInicio').value;
+            let inputhoraFin = document.getElementById('inputhoraFin').value;
+            let inputminutoFin = document.getElementById('inputminutoFin').value;
+            inventario.recorrido(inputbaseInicio,inputhoraInicio,inputminutoInicio,inputhoraFin,inputminutoFin);
+        });
+    </script>
+</body>
+</html>
